@@ -191,13 +191,13 @@ Parent Directory (supporting projects):
 
 Choose during installation or edit `.env`:
 
-| Model         | Best For                      |
-| ------------- | ----------------------------- |
-| `gpt-4.5`     | Latest flagship (recommended) |
-| `gpt-4o`      | Standard fast model           |
-| `gpt-4o-mini` | Faster, cheaper               |
-| `o3`          | Advanced reasoning            |
-| `o3-mini`     | Fast reasoning                |
+| Model            | Best For                                           |
+| ---------------- | -------------------------------------------------- |
+| `openai/gpt-5.4` | Latest, best for CUA browser control (recommended) |
+| `openai/gpt-5.2` | Fast, reliable, lower cost                         |
+| `openai/gpt-4.1` | Proven, cost-effective                             |
+| `openai/o3`      | Reasoning model, great for complex tasks           |
+| `Custom`         | Bring your own model from any provider             |
 
 ---
 

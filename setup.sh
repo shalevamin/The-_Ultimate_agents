@@ -219,26 +219,32 @@ else
 fi
 
 echo ""
-echo -e "  ${CYAN}${BOLD}🤖 Choose your default AI model:${NC}"
+echo -e "  ${CYAN}${BOLD}Select your default AI model:${NC}"
 echo ""
-echo -e "  ${BOLD}1)${NC} gpt-4.5         ${DIM}— Latest flagship (recommended)${NC}"
-echo -e "  ${BOLD}2)${NC} gpt-4o          ${DIM}— Standard fast model${NC}"
-echo -e "  ${BOLD}3)${NC} gpt-4o-mini     ${DIM}— Faster, cheaper${NC}"
-echo -e "  ${BOLD}4)${NC} o3              ${DIM}— Advanced reasoning${NC}"
-echo -e "  ${BOLD}5)${NC} o3-mini         ${DIM}— Fast reasoning${NC}"
+echo -e "  ${GREEN}[1] gpt-5.4       ${NC}— Latest, best for CUA browser control ${GREEN}(recommended)${NC}"
+echo -e "  ${BLUE}[2] gpt-5.2       ${NC}— Fast, reliable, lower cost"
+echo -e "  ${BLUE}[3] gpt-4.1       ${NC}— Proven, cost-effective"
+echo -e "  ${MAGENTA}[4] o3            ${NC}— Reasoning model, great for complex tasks"
+echo -e "  ${DIM}[5] Custom        — Enter a custom model name${NC}"
 echo ""
-echo -n "  Choice [1-5, default=1] → "
+echo -n "  Your choice (1-5) [1]: "
 read -r MODEL_CHOICE < "$TTY"
 
 case "$MODEL_CHOICE" in
-    2) SELECTED_MODEL="gpt-4o" ;;
-    3) SELECTED_MODEL="gpt-4o-mini" ;;
-    4) SELECTED_MODEL="o3" ;;
-    5) SELECTED_MODEL="o3-mini" ;;
-    *) SELECTED_MODEL="gpt-4.5" ;;
+    2) SELECTED_MODEL="openai/gpt-5.2" ;;
+    3) SELECTED_MODEL="openai/gpt-4.1" ;;
+    4) SELECTED_MODEL="openai/o3" ;;
+    5) 
+        echo -n "  ${CYAN}Enter custom model name (e.g., anthropic/claude-3-opus-20240229) → ${NC}"
+        read -r SELECTED_MODEL < "$TTY"
+        ;;
+    *) SELECTED_MODEL="openai/gpt-5.4" ;;
 esac
 
-print_ok "Selected model: ${BOLD}$SELECTED_MODEL${NC}"
+print_ok "Selected model: ${GREEN}$SELECTED_MODEL${NC}"
+echo ""
+echo -e "  ${DIM}Press Enter to continue...${NC}"
+read -r _ < "$TTY"
 sleep 1
 
 # ═══════════════════════════════════════════════════════════════
