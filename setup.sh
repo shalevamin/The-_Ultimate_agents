@@ -454,10 +454,9 @@ echo -e "  ${BOLD}3)${NC} 💬 ${GREEN}Connect WhatsApp${NC}        ${DIM}— Se
 echo -e "  ${BOLD}4)${NC} 📱 ${BLUE}Connect Telegram${NC}        ${DIM}— Set up Telegram bot${NC}"
 echo -e "  ${BOLD}5)${NC} 🎮 ${MAGENTA}Connect Discord${NC}        ${DIM}— Set up Discord bot${NC}"
 echo -e "  ${BOLD}6)${NC} 💼 ${YELLOW}Connect Slack${NC}           ${DIM}— Set up Slack integration${NC}"
-echo -e "  ${BOLD}7)${NC} 🌐 ${CYAN}Open Dashboard${NC}          ${DIM}— Web control panel${NC}"
 echo -e "  ${BOLD}0)${NC} 🚪 ${DIM}Exit${NC}"
 echo ""
-echo -n "  Choice [0-7, default=1] → "
+echo -n "  Choice [0-6, default=Dashboard] → "
 read -r LAUNCH_CHOICE < "$TTY"
 
 cd "$TUA_DIR"
@@ -516,23 +515,9 @@ case "$LAUNCH_CHOICE" in
         echo -e "  4. Select 'Slack' and paste your token"
         echo ""
         ;;
-    7)
+    1)
         echo ""
-        echo -e "  ${CYAN}${BOLD}Starting Dashboard...${NC}"
-        echo ""
-        echo -e "  ${CYAN}cd ../openclaw-main && pnpm install && pnpm dev${NC}"
-        echo -e "  ${DIM}Dashboard will open at http://localhost:3000${NC}"
-        echo ""
-        ;;
-    0)
-        echo ""
-        echo -e "  ${DIM}Goodbye! Run ${NC}${BOLD}cd $TUA_DIR && claude .${NC}${DIM} when ready.${NC}"
-        echo ""
-        exit 0
-        ;;
-    *)
-        echo ""
-        echo -e "  ${GREEN}${BOLD}Starting TUA Agent...${NC}"
+        echo -e "  ${GREEN}${BOLD}Starting TUA Agent (Claude Code)...${NC}"
         echo -e "  ${DIM}(Type / to see 125+ available skills)${NC}"
         echo ""
         export OPENAI_API_KEY="$API_KEY"
@@ -543,6 +528,27 @@ case "$LAUNCH_CHOICE" in
             echo ""
             echo -e "  Then run: ${BOLD}cd $TUA_DIR && claude .${NC}"
         }
+        ;;
+    0)
+        echo ""
+        echo -e "  ${DIM}Goodbye! Run ${NC}${BOLD}cd $TUA_DIR && npm run dev${NC}${DIM} when ready.${NC}"
+        echo ""
+        exit 0
+        ;;
+    *)
+        echo ""
+        echo -e "  ${CYAN}${BOLD}Starting Dashboard...${NC}"
+        echo ""
+        echo -e "  ${YELLOW}Installing dashboard dependencies...${NC}"
+        cd "../openclaw-main" 2>/dev/null || cd "$TUA_DIR/../openclaw-main" 2>/dev/null || {
+            echo -e "  ${RED}Failed to locate openclaw-main directory.${NC}"
+            exit 1
+        }
+        npm install
+        echo -e "  ${GREEN}Starting development server...${NC}"
+        echo -e "  ${DIM}Dashboard will open at http://localhost:3000${NC}"
+        echo ""
+        npm run dev
         ;;
 esac
 
