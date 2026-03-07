@@ -1,0 +1,47 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "tua-agent-ui",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["../openclaw-main/scripts/ui.js", "dev"],
+      "port": 5173
+    },
+    {
+      "name": "tua-agent-gateway",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["../openclaw-main/scripts/run-node.mjs", "--dev", "gateway"],
+      "port": 18789
+    },
+    {
+      "name": "paperclip-dev",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--dir", "../paperclip-master", "dev"],
+      "port": 3100
+    },
+    {
+      "name": "openai-cua-web",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--dir", "../openai-cua-main", "dev:web"],
+      "port": 3000
+    },
+    {
+      "name": "openai-cua-runner",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--dir", "../openai-cua-main", "dev:runner"],
+      "port": 4001
+    },
+    {
+      "name": "remotion-studio",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["--yes", "remotion", "studio", "--port", "3002"],
+      "port": 3002
+    },
+    {
+      "name": "superset-desktop",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--dir", "../superset-main", "dev"],
+      "port": 5173
+    }
+  ]
+}
