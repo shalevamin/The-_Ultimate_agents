@@ -92,11 +92,11 @@ check_tool() {
         ver=$($cmd --version 2>&1 | head -1) || ver="installed"
         eval "$var_name=true"
         print_ok "${BOLD}$name${NC} — ${DIM}$ver${NC}"
-        ((TOTAL_INSTALLED++))
+        TOTAL_INSTALLED=$((TOTAL_INSTALLED + 1))
     else
         eval "$var_name=false"
         print_fail "${BOLD}$name${NC} — not found"
-        ((TOTAL_MISSING++))
+        TOTAL_MISSING=$((TOTAL_MISSING + 1))
     fi
 }
 
@@ -116,22 +116,22 @@ check_tool "Codex CLI"   "codex"   "HAS_CODEX"
 if python3 -c "import playwright" 2>/dev/null; then
     HAS_PLAYWRIGHT="true"
     print_ok "${BOLD}Playwright${NC} — installed"
-    ((TOTAL_INSTALLED++))
+    TOTAL_INSTALLED=$((TOTAL_INSTALLED + 1))
 else
     HAS_PLAYWRIGHT="false"
     print_fail "${BOLD}Playwright${NC} — not found"
-    ((TOTAL_MISSING++))
+    TOTAL_MISSING=$((TOTAL_MISSING + 1))
 fi
 
 # Check browser-use
 if python3 -c "import browser_use" 2>/dev/null; then
     HAS_BROWSER_USE="true"
     print_ok "${BOLD}browser-use${NC} — installed"
-    ((TOTAL_INSTALLED++))
+    TOTAL_INSTALLED=$((TOTAL_INSTALLED + 1))
 else
     HAS_BROWSER_USE="false"
     print_fail "${BOLD}browser-use${NC} — not found"
-    ((TOTAL_MISSING++))
+    TOTAL_MISSING=$((TOTAL_MISSING + 1))
 fi
 
 echo ""
@@ -402,10 +402,10 @@ verify() {
     local cmd="$2"
     if eval "$cmd" &>/dev/null; then
         print_ok "$name"
-        ((PASS++))
+        PASS=$((PASS + 1))
     else
         print_fail "$name"
-        ((FAIL++))
+        FAIL=$((FAIL + 1))
     fi
 }
 
