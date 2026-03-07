@@ -191,13 +191,13 @@ Parent Directory (supporting projects):
 
 Choose during installation or edit `.env`:
 
-| Model         | Best For                            |
-| ------------- | ----------------------------------- |
-| `gpt-4o`      | Best quality + vision (recommended) |
-| `gpt-4o-mini` | Faster, cheaper                     |
-| `o1`          | Complex reasoning                   |
-| `o1-mini`     | Fast reasoning                      |
-| `gpt-4.1`     | Latest flagship                     |
+| Model         | Best For                      |
+| ------------- | ----------------------------- |
+| `gpt-4.5`     | Latest flagship (recommended) |
+| `gpt-4o`      | Standard fast model           |
+| `gpt-4o-mini` | Faster, cheaper               |
+| `o3`          | Advanced reasoning            |
+| `o3-mini`     | Fast reasoning                |
 
 ---
 

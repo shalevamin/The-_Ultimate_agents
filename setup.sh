@@ -221,21 +221,21 @@ fi
 echo ""
 echo -e "  ${CYAN}${BOLD}🤖 Choose your default AI model:${NC}"
 echo ""
-echo -e "  ${BOLD}1)${NC} gpt-4o          ${DIM}— Best quality + vision (recommended)${NC}"
-echo -e "  ${BOLD}2)${NC} gpt-4o-mini      ${DIM}— Faster, cheaper${NC}"
-echo -e "  ${BOLD}3)${NC} o1               ${DIM}— Reasoning model${NC}"
-echo -e "  ${BOLD}4)${NC} o1-mini          ${DIM}— Fast reasoning${NC}"
-echo -e "  ${BOLD}5)${NC} gpt-4.1          ${DIM}— Latest flagship${NC}"
+echo -e "  ${BOLD}1)${NC} gpt-4.5         ${DIM}— Latest flagship (recommended)${NC}"
+echo -e "  ${BOLD}2)${NC} gpt-4o          ${DIM}— Standard fast model${NC}"
+echo -e "  ${BOLD}3)${NC} gpt-4o-mini     ${DIM}— Faster, cheaper${NC}"
+echo -e "  ${BOLD}4)${NC} o3              ${DIM}— Advanced reasoning${NC}"
+echo -e "  ${BOLD}5)${NC} o3-mini         ${DIM}— Fast reasoning${NC}"
 echo ""
 echo -n "  Choice [1-5, default=1] → "
 read -r MODEL_CHOICE < "$TTY"
 
 case "$MODEL_CHOICE" in
-    2) SELECTED_MODEL="gpt-4o-mini" ;;
-    3) SELECTED_MODEL="o1" ;;
-    4) SELECTED_MODEL="o1-mini" ;;
-    5) SELECTED_MODEL="gpt-4.1" ;;
-    *) SELECTED_MODEL="gpt-4o" ;;
+    2) SELECTED_MODEL="gpt-4o" ;;
+    3) SELECTED_MODEL="gpt-4o-mini" ;;
+    4) SELECTED_MODEL="o3" ;;
+    5) SELECTED_MODEL="o3-mini" ;;
+    *) SELECTED_MODEL="gpt-4.5" ;;
 esac
 
 print_ok "Selected model: ${BOLD}$SELECTED_MODEL${NC}"
