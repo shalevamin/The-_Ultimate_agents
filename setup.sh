@@ -80,62 +80,61 @@ sleep 1
 # ═══════════════════════════════════════════════════════════════
 print_phase "PHASE 2/7 — Scanning Your System..."
 
-declare -A INSTALLED
+TOTAL_INSTALLED=0
+TOTAL_MISSING=0
 
 check_tool() {
     local name="$1"
     local cmd="$2"
+    local var_name="$3"
     if command -v "$cmd" &>/dev/null; then
         local ver
         ver=$($cmd --version 2>&1 | head -1) || ver="installed"
-        INSTALLED[$name]="true"
+        eval "$var_name=true"
         print_ok "${BOLD}$name${NC} — ${DIM}$ver${NC}"
+        ((TOTAL_INSTALLED++))
     else
-        INSTALLED[$name]="false"
+        eval "$var_name=false"
         print_fail "${BOLD}$name${NC} — not found"
+        ((TOTAL_MISSING++))
     fi
 }
 
 echo -e "  ${CYAN}Checking pre-installed tools...${NC}"
 echo ""
 
-check_tool "Homebrew"    "brew"
-check_tool "Node.js"     "node"
-check_tool "npm"         "npm"
-check_tool "Python3"     "python3"
-check_tool "pip3"        "pip3"
-check_tool "uv"          "uv"
-check_tool "Git"         "git"
-check_tool "Codex CLI"   "codex"
+check_tool "Homebrew"    "brew"    "HAS_HOMEBREW"
+check_tool "Node.js"     "node"    "HAS_NODE"
+check_tool "npm"         "npm"     "HAS_NPM"
+check_tool "Python3"     "python3" "HAS_PYTHON3"
+check_tool "pip3"        "pip3"    "HAS_PIP3"
+check_tool "uv"          "uv"      "HAS_UV"
+check_tool "Git"         "git"     "HAS_GIT"
+check_tool "Codex CLI"   "codex"   "HAS_CODEX"
 
 # Check Playwright
 if python3 -c "import playwright" 2>/dev/null; then
-    INSTALLED[Playwright]="true"
+    HAS_PLAYWRIGHT="true"
     print_ok "${BOLD}Playwright${NC} — installed"
+    ((TOTAL_INSTALLED++))
 else
-    INSTALLED[Playwright]="false"
+    HAS_PLAYWRIGHT="false"
     print_fail "${BOLD}Playwright${NC} — not found"
+    ((TOTAL_MISSING++))
 fi
 
 # Check browser-use
 if python3 -c "import browser_use" 2>/dev/null; then
-    INSTALLED[browser-use]="true"
+    HAS_BROWSER_USE="true"
     print_ok "${BOLD}browser-use${NC} — installed"
+    ((TOTAL_INSTALLED++))
 else
-    INSTALLED[browser-use]="false"
+    HAS_BROWSER_USE="false"
     print_fail "${BOLD}browser-use${NC} — not found"
+    ((TOTAL_MISSING++))
 fi
 
 echo ""
-TOTAL_INSTALLED=0
-TOTAL_MISSING=0
-for key in "${!INSTALLED[@]}"; do
-    if [ "${INSTALLED[$key]}" = "true" ]; then
-        ((TOTAL_INSTALLED++))
-    else
-        ((TOTAL_MISSING++))
-    fi
-done
 echo -e "  ${GREEN}$TOTAL_INSTALLED installed${NC} · ${YELLOW}$TOTAL_MISSING to install${NC}"
 sleep 1
 
@@ -267,7 +266,7 @@ fi
 TUA_DIR="$SCRIPT_DIR"
 
 # 5a. Homebrew
-if [ "${INSTALLED[Homebrew]}" = "false" ]; then
+if [ "$HAS_HOMEBREW" = "false" ]; then
     echo -e "  ${YELLOW}Installing Homebrew...${NC}"
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" < "$TTY" && print_ok "Homebrew installed" || print_warn "Homebrew installation failed — skipping"
 else
@@ -275,7 +274,7 @@ else
 fi
 
 # 5b. Node.js
-if [ "${INSTALLED[Node.js]}" = "false" ]; then
+if [ "$HAS_NODE" = "false" ]; then
     echo -e "  ${YELLOW}Installing Node.js...${NC}"
     if command -v brew &>/dev/null; then
         brew install node && print_ok "Node.js installed" || print_warn "Node.js installation failed"
@@ -287,7 +286,7 @@ else
 fi
 
 # 5c. Python3
-if [ "${INSTALLED[Python3]}" = "false" ]; then
+if [ "$HAS_PYTHON3" = "false" ]; then
     echo -e "  ${YELLOW}Installing Python3...${NC}"
     if command -v brew &>/dev/null; then
         brew install python3 && print_ok "Python3 installed" || print_warn "Python3 installation failed"
@@ -299,14 +298,14 @@ else
 fi
 
 # 5d. browser-use + Playwright
-if [ "${INSTALLED[browser-use]}" = "false" ]; then
+if [ "$HAS_BROWSER_USE" = "false" ]; then
     echo -e "  ${YELLOW}Installing browser-use...${NC}"
     pip3 install browser-use 2>/dev/null && print_ok "browser-use installed" || {
         pip3 install --user browser-use 2>/dev/null && print_ok "browser-use installed (user)" || print_warn "browser-use: install manually with 'pip3 install browser-use'"
     }
 fi
 
-if [ "${INSTALLED[Playwright]}" = "false" ]; then
+if [ "$HAS_PLAYWRIGHT" = "false" ]; then
     echo -e "  ${YELLOW}Installing Playwright + Chromium...${NC}"
     pip3 install playwright 2>/dev/null || pip3 install --user playwright 2>/dev/null || true
     python3 -m playwright install chromium 2>/dev/null && print_ok "Playwright + Chromium installed" || print_warn "Run: python3 -m playwright install chromium"
@@ -315,7 +314,7 @@ else
 fi
 
 # 5e. Codex CLI
-if [ "${INSTALLED[Codex CLI]}" = "false" ]; then
+if [ "$HAS_CODEX" = "false" ]; then
     echo -e "  ${YELLOW}Installing OpenAI Codex CLI...${NC}"
     npm install -g @openai/codex 2>/dev/null && print_ok "Codex CLI installed" || print_warn "Run: npm install -g @openai/codex"
 else
