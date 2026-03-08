@@ -454,15 +454,16 @@ echo -e "${NC}"
 echo ""
 echo -e "  ${BOLD}What would you like to do?${NC}"
 echo ""
-echo -e "  ${BOLD}1)${NC} 🚀 ${GREEN}Start TUA Agent${NC}         ${DIM}— Launch the AI agent (recommended)${NC}"
-echo -e "  ${BOLD}2)${NC} 🖥️  ${CYAN}Launch Codex CLI${NC}        ${DIM}— OpenAI code assistant${NC}"
-echo -e "  ${BOLD}3)${NC} 💬 ${GREEN}Connect WhatsApp${NC}        ${DIM}— Set up WhatsApp integration${NC}"
-echo -e "  ${BOLD}4)${NC} 📱 ${BLUE}Connect Telegram${NC}        ${DIM}— Set up Telegram bot${NC}"
-echo -e "  ${BOLD}5)${NC} 🎮 ${MAGENTA}Connect Discord${NC}        ${DIM}— Set up Discord bot${NC}"
-echo -e "  ${BOLD}6)${NC} 💼 ${YELLOW}Connect Slack${NC}           ${DIM}— Set up Slack integration${NC}"
+echo -e "  ${BOLD}1)${NC} 🌐 ${CYAN}Web Dashboard${NC}           ${DIM}— Visual control panel (recommended)${NC}"
+echo -e "  ${BOLD}2)${NC} 🚀 ${GREEN}Terminal Agent${NC}          ${DIM}— Claude Code CLI${NC}"
+echo -e "  ${BOLD}3)${NC} 🖥️  ${CYAN}Codex Assistant${NC}         ${DIM}— OpenAI code assistant${NC}"
+echo -e "  ${BOLD}4)${NC} 💬 ${GREEN}Connect WhatsApp${NC}        ${DIM}— Set up WhatsApp integration${NC}"
+echo -e "  ${BOLD}5)${NC} 📱 ${BLUE}Connect Telegram${NC}        ${DIM}— Set up Telegram bot${NC}"
+echo -e "  ${BOLD}6)${NC} 🎮 ${MAGENTA}Connect Discord${NC}         ${DIM}— Set up Discord bot${NC}"
+echo -e "  ${BOLD}7)${NC} 💼 ${YELLOW}Connect Slack${NC}           ${DIM}— Set up Slack integration${NC}"
 echo -e "  ${BOLD}0)${NC} 🚪 ${DIM}Exit${NC}"
 echo ""
-echo -n "  Choice [0-6, default=Dashboard] → "
+echo -n "  Choice [0-7, default=1] → "
 read -r LAUNCH_CHOICE < "$TTY"
 
 cd "$TUA_DIR"
@@ -470,60 +471,7 @@ cd "$TUA_DIR"
 case "$LAUNCH_CHOICE" in
     2)
         echo ""
-        echo -e "  ${CYAN}Starting Codex CLI...${NC}"
-        echo -e "  ${DIM}(Use Ctrl+C to exit)${NC}"
-        echo ""
-        export OPENAI_API_KEY="$API_KEY"
-        codex 2>/dev/null || {
-            print_warn "Codex CLI not found. Run: npm install -g @openai/codex"
-        }
-        ;;
-    3)
-        echo ""
-        echo -e "  ${GREEN}${BOLD}WhatsApp Setup:${NC}"
-        echo ""
-        echo -e "  1. Start the gateway:"
-        echo -e "     ${CYAN}cd ../openclaw-main && pnpm install && openclaw onboard${NC}"
-        echo -e "  2. Select 'WhatsApp' as the channel"
-        echo -e "  3. Scan the QR code with your phone"
-        echo ""
-        ;;
-    4)
-        echo ""
-        echo -e "  ${BLUE}${BOLD}Telegram Setup:${NC}"
-        echo ""
-        echo -e "  1. Create a bot via @BotFather on Telegram"
-        echo -e "  2. Copy the bot token"
-        echo -e "  3. Start the gateway:"
-        echo -e "     ${CYAN}cd ../openclaw-main && pnpm install && openclaw onboard${NC}"
-        echo -e "  4. Select 'Telegram' and paste your token"
-        echo ""
-        ;;
-    5)
-        echo ""
-        echo -e "  ${MAGENTA}${BOLD}Discord Setup:${NC}"
-        echo ""
-        echo -e "  1. Create a bot at https://discord.com/developers/applications"
-        echo -e "  2. Copy the bot token"
-        echo -e "  3. Start the gateway:"
-        echo -e "     ${CYAN}cd ../openclaw-main && pnpm install && openclaw onboard${NC}"
-        echo -e "  4. Select 'Discord' and paste your token"
-        echo ""
-        ;;
-    6)
-        echo ""
-        echo -e "  ${YELLOW}${BOLD}Slack Setup:${NC}"
-        echo ""
-        echo -e "  1. Create a Slack App at https://api.slack.com/apps"
-        echo -e "  2. Copy the OAuth token"
-        echo -e "  3. Start the gateway:"
-        echo -e "     ${CYAN}cd ../openclaw-main && pnpm install && openclaw onboard${NC}"
-        echo -e "  4. Select 'Slack' and paste your token"
-        echo ""
-        ;;
-    1)
-        echo ""
-        echo -e "  ${GREEN}${BOLD}Starting TUA Agent (Claude Code)...${NC}"
+        echo -e "  ${GREEN}${BOLD}Starting Terminal Agent (Claude Code)...${NC}"
         echo -e "  ${DIM}(Type / to see 125+ available skills)${NC}"
         echo ""
         export OPENAI_API_KEY="$API_KEY"
@@ -535,15 +483,68 @@ case "$LAUNCH_CHOICE" in
             echo -e "  Then run: ${BOLD}cd $TUA_DIR && claude .${NC}"
         }
         ;;
+    3)
+        echo ""
+        echo -e "  ${CYAN}Starting Codex CLI...${NC}"
+        echo -e "  ${DIM}(Use Ctrl+C to exit)${NC}"
+        echo ""
+        export OPENAI_API_KEY="$API_KEY"
+        codex 2>/dev/null || {
+            print_warn "Codex CLI not found. Run: npm install -g @openai/codex"
+        }
+        ;;
+    4)
+        echo ""
+        echo -e "  ${GREEN}${BOLD}WhatsApp Setup:${NC}"
+        echo ""
+        echo -e "  1. Start the gateway:"
+        echo -e "     ${CYAN}cd ../openclaw-main && pnpm install && openclaw onboard${NC}"
+        echo -e "  2. Select 'WhatsApp' as the channel"
+        echo -e "  3. Scan the QR code with your phone"
+        echo ""
+        ;;
+    5)
+        echo ""
+        echo -e "  ${BLUE}${BOLD}Telegram Setup:${NC}"
+        echo ""
+        echo -e "  1. Create a bot via @BotFather on Telegram"
+        echo -e "  2. Copy the bot token"
+        echo -e "  3. Start the gateway:"
+        echo -e "     ${CYAN}cd ../openclaw-main && pnpm install && openclaw onboard${NC}"
+        echo -e "  4. Select 'Telegram' and paste your token"
+        echo ""
+        ;;
+    6)
+        echo ""
+        echo -e "  ${MAGENTA}${BOLD}Discord Setup:${NC}"
+        echo ""
+        echo -e "  1. Create a bot at https://discord.com/developers/applications"
+        echo -e "  2. Copy the bot token"
+        echo -e "  3. Start the gateway:"
+        echo -e "     ${CYAN}cd ../openclaw-main && pnpm install && openclaw onboard${NC}"
+        echo -e "  4. Select 'Discord' and paste your token"
+        echo ""
+        ;;
+    7)
+        echo ""
+        echo -e "  ${YELLOW}${BOLD}Slack Setup:${NC}"
+        echo ""
+        echo -e "  1. Create a Slack App at https://api.slack.com/apps"
+        echo -e "  2. Copy the OAuth token"
+        echo -e "  3. Start the gateway:"
+        echo -e "     ${CYAN}cd ../openclaw-main && pnpm install && openclaw onboard${NC}"
+        echo -e "  4. Select 'Slack' and paste your token"
+        echo ""
+        ;;
     0)
         echo ""
         echo -e "  ${DIM}Goodbye! Run ${NC}${BOLD}cd $TUA_DIR && npm run dev${NC}${DIM} when ready.${NC}"
         echo ""
         exit 0
         ;;
-    *)
+    1|*)
         echo ""
-        echo -e "  ${CYAN}${BOLD}Starting Dashboard...${NC}"
+        echo -e "  ${CYAN}${BOLD}Starting Web Dashboard...${NC}"
         echo ""
         echo -e "  ${YELLOW}Installing dashboard dependencies...${NC}"
         cd "../openclaw-main" 2>/dev/null || cd "$TUA_DIR/../openclaw-main" 2>/dev/null || {
