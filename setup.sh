@@ -271,6 +271,12 @@ fi
 
 TUA_DIR="$SCRIPT_DIR"
 
+# Ensure openclaw dashboard exists alongside tua-agent
+if [ ! -d "$TUA_DIR/../openclaw-main" ] && [ ! -d "$TUA_DIR/../openclaw" ]; then
+    echo -e "  ${YELLOW}Cloning openclaw dashboard dependency...${NC}"
+    (cd "$TUA_DIR/.." && git clone https://github.com/agencyhq/openclaw.git openclaw-main 2>/dev/null)
+fi
+
 # 5a. Homebrew
 if [ "$HAS_HOMEBREW" = "false" ]; then
     echo -e "  ${YELLOW}Installing Homebrew...${NC}"
@@ -498,7 +504,7 @@ case "$LAUNCH_CHOICE" in
         echo -e "  ${GREEN}${BOLD}WhatsApp Setup:${NC}"
         echo ""
         echo -e "  1. Start the gateway:"
-        echo -e "     ${CYAN}cd ../openclaw-main && pnpm install && openclaw onboard${NC}"
+        echo -e "     ${CYAN}cd ../openclaw* && pnpm install && openclaw onboard${NC}"
         echo -e "  2. Select 'WhatsApp' as the channel"
         echo -e "  3. Scan the QR code with your phone"
         echo ""
@@ -510,7 +516,7 @@ case "$LAUNCH_CHOICE" in
         echo -e "  1. Create a bot via @BotFather on Telegram"
         echo -e "  2. Copy the bot token"
         echo -e "  3. Start the gateway:"
-        echo -e "     ${CYAN}cd ../openclaw-main && pnpm install && openclaw onboard${NC}"
+        echo -e "     ${CYAN}cd ../openclaw* && pnpm install && openclaw onboard${NC}"
         echo -e "  4. Select 'Telegram' and paste your token"
         echo ""
         ;;
@@ -521,7 +527,7 @@ case "$LAUNCH_CHOICE" in
         echo -e "  1. Create a bot at https://discord.com/developers/applications"
         echo -e "  2. Copy the bot token"
         echo -e "  3. Start the gateway:"
-        echo -e "     ${CYAN}cd ../openclaw-main && pnpm install && openclaw onboard${NC}"
+        echo -e "     ${CYAN}cd ../openclaw* && pnpm install && openclaw onboard${NC}"
         echo -e "  4. Select 'Discord' and paste your token"
         echo ""
         ;;
@@ -532,7 +538,7 @@ case "$LAUNCH_CHOICE" in
         echo -e "  1. Create a Slack App at https://api.slack.com/apps"
         echo -e "  2. Copy the OAuth token"
         echo -e "  3. Start the gateway:"
-        echo -e "     ${CYAN}cd ../openclaw-main && pnpm install && openclaw onboard${NC}"
+        echo -e "     ${CYAN}cd ../openclaw* && pnpm install && openclaw onboard${NC}"
         echo -e "  4. Select 'Slack' and paste your token"
         echo ""
         ;;
@@ -547,8 +553,8 @@ case "$LAUNCH_CHOICE" in
         echo -e "  ${CYAN}${BOLD}Starting Web Dashboard...${NC}"
         echo ""
         echo -e "  ${YELLOW}Installing dashboard dependencies...${NC}"
-        cd "../openclaw-main" 2>/dev/null || cd "$TUA_DIR/../openclaw-main" 2>/dev/null || {
-            echo -e "  ${RED}Failed to locate openclaw-main directory.${NC}"
+        cd "$TUA_DIR/../openclaw-main" 2>/dev/null || cd "$TUA_DIR/../openclaw" 2>/dev/null || {
+            echo -e "  ${RED}Failed to locate openclaw dashboard directory.${NC}"
             exit 1
         }
         npm install
